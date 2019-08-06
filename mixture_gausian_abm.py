@@ -55,17 +55,8 @@ def main():
     mu = (0,0)
     sd_global = 250
     ratio_s = [i * 0.1 for i in range(1,11)] # ratio = sd_local_sd_global, set from 0.1 to 1 by 0.1.
-    # print(ratio_s)
-    # sd_local = 25
     sigma_global = [[sd_global**2,0],[0,sd_global**2]]
-    # sigma_local = [[sd_local**2,0],[0,sd_local**2]]
     iteration_n = 10000
-    # pi_s = [i * 0.01 for i in range(21)]
-    # pi_s.extend([j * 0.1 for j in range(3,11)])
-    # pi_s = [i * 0.1 for i in range(11)]
-    # print(pi_s)
-    # sma_sd_s = np.zeros(shape=(2,iteration_n,len(pi_s))) # prepare np array for SD values (dim=1), axis (dim=2), and pi values (dim=3).
-    # marmoset_agent_s = np.zeros(shape=(200,2,iteration_n,len(pi_s)))
     for n, r in enumerate(ratio_s):
         print('start r = %f' %r)
         sigma_local = [[(sd_global * r) ** 2,0],[0,(sd_global * r) ** 2]]
