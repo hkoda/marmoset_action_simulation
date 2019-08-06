@@ -51,7 +51,6 @@ def mk_pi_s(r):
 
 def main():
     today_str = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-    # mu = (500.0,500.0)
     mu = (0,0)
     sd_global = 250
     ratio_s = [i * 0.1 for i in range(1,11)] # ratio = sd_local_sd_global, set from 0.1 to 1 by 0.1.
