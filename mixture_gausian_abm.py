@@ -7,7 +7,9 @@ import pickle
 import datetime
 
 def simple_moving_average(marmoset_agent):
-    # calculating the simple moving averages (SMAs) of the consecutive 10 points. In our simulations, we generate 200 points (containing x and y coordinates) of simulated marmoset touch locations; therefore, 191 values of SMAs are calculated. 
+    # calculating the simple moving averages (SMAs) of the consecutive 10 points. 
+    # In our simulations, we generate 200 points (containing x and y coordinates) 
+    # of simulated marmoset touch locations; therefore, 191 values of SMAs are calculated. 
     marmoset_agent_sma = np.zeros(shape=(191,2)) # set zero vectors to be stored SMAs.
     b=np.ones(10)/10 # N of smoothing points, here set 10.
     marmoset_agent_sma[:,0] = np.convolve(marmoset_agent[:,0],b,"valid") # x-axis
@@ -15,7 +17,8 @@ def simple_moving_average(marmoset_agent):
     return marmoset_agent_sma
 
 def cal_2d_distance(marmoset_agent_s):
-    # calculating the 2D distance between the first touch locations and the i-th locations. This script is not used for our simulations.
+    # calculating the 2D distance between the first touch locations and the i-th locations. 
+    # This script is not used for our simulations.
     
     l_norm_s = len(marmoset_agent_s[0,0,:]) # get the size of the vector of simulated marmoset agent.
 
@@ -30,7 +33,7 @@ def cal_2d_distance(marmoset_agent_s):
     return norm_s
 
 def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
-    # argolisms generating the new locations depending on the previous locations.
+    # algorithm generating the new locations depending on the previous locations.
 
     # First, making a vector for saving the locations.
     marmoset_agent = np.zeros(shape=(200,2)) 
@@ -56,6 +59,7 @@ def generate_next_dot(marmoset_agent,mu,sigma_global,sigma_local,pi):
     return new_dot
 
 def mk_pi_s(r):
+    # making the lists of mixture ratios, pi_r, here. Mixture ratio is the probablities to switch 
     if r == 0.1:
         pi_s = [i * 0.01 for i in range(21)]
         pi_s.extend([j * 0.1 for j in range(3,11)])
@@ -84,7 +88,7 @@ def main():
     # iteration number for the simulations.
     iteration_n = 10000
 
-    # main loop for the simulation
+    # main loop for each of the `ratio` values of simulations.
     for n, r in enumerate(ratio_s):
         print('start r = %f' %r)
         sigma_local = [[(sd_global * r) ** 2,0],[0,(sd_global * r) ** 2]]
