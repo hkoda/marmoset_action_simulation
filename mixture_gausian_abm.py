@@ -7,24 +7,38 @@ import pickle
 import datetime
 
 def simple_moving_average(marmoset_agent):
-    marmoset_agent_sma = np.zeros(shape=(191,2))
+    # calculating the simple moving averages (SMAs) of the consecutive 10 points. In our simulations, we generate 200 points (containing x and y coordinates) of simulated marmoset touch locations; therefore, 191 values of SMAs are calculated. 
+    marmoset_agent_sma = np.zeros(shape=(191,2)) # set zero vectors to be stored SMAs.
     b=np.ones(10)/10 # N of smoothing points, here set 10.
     marmoset_agent_sma[:,0] = np.convolve(marmoset_agent[:,0],b,"valid") # x-axis
     marmoset_agent_sma[:,1] = np.convolve(marmoset_agent[:,1],b,"valid") # y-axis
     return marmoset_agent_sma
 
 def cal_2d_distance(marmoset_agent_s):
-    l_norm_s = len(marmoset_agent_s[0,0,:])
-    norm_s = np.zeros(l_norm_s)
+    # calculating the 2D distance between the first touch locations and the i-th locations. This script is not used for our simulations.
+    
+    l_norm_s = len(marmoset_agent_s[0,0,:]) # get the size of the vector of simulated marmoset agent.
+
+    norm_s = np.zeros(l_norm_s) # make zero vector for saving the 2D distances calculated below.
+    # loop for calculating the 2D distances between 1-st location and i-th location.
+    
     for i in range(l_norm_s):
         a = marmoset_agent_s[0,:,i]
         b = marmoset_agent_s[-1,:,i]
-        norm_s[i] = np.linalg.norm(a-b)
+        norm_s[i] = np.linalg.norm(a-b) # compute 2D distance and save to the vector.
+    
     return norm_s
 
 def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
+    # argolisms generating the new locations depending on the previous locations.
+
+    # First, making a vector for saving the locations.
     marmoset_agent = np.zeros(shape=(200,2)) 
+
+    # The first locations is generated from the bivariate Gaussian distributions (mean:= mu, standard deviation:= sigma_global).
     marmoset_agent[0] = multivariate_normal(mu, sigma_global, 1)
+
+    # loop generating the next location by generate_next_dot() methods.
     for i in range(1,200):
         if i <= 10:
             marmoset_agent[i] = generate_next_dot(marmoset_agent[:i],mu,sigma_global,sigma_local,pi) 
@@ -50,12 +64,27 @@ def mk_pi_s(r):
     return pi_s
 
 def main():
+    # main process of simulations.
+
+    # Get the date-time info when we simulated.
     today_str = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+
+    # set mean parameter (for bivariate Gaussian distribution) as (0,0). 
     mu = (0,0)
+
+    # set global (large) standard deviation parameter (for bivariate Gaussian distribution) as 250.
     sd_global = 250
-    ratio_s = [i * 0.1 for i in range(1,11)] # ratio = sd_local_sd_global, set from 0.1 to 1 by 0.1.
+
+    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25.
+    ratio_s = [i * 0.1 for i in range(1,11)]
+
+    # define the covariance matrix of bivariate Gaussian distribution.
     sigma_global = [[sd_global**2,0],[0,sd_global**2]]
+
+    # iteration number for the simulations.
     iteration_n = 10000
+
+    # main loop for the simulation
     for n, r in enumerate(ratio_s):
         print('start r = %f' %r)
         sigma_local = [[(sd_global * r) ** 2,0],[0,(sd_global * r) ** 2]]
