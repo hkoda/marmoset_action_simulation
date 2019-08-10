@@ -18,7 +18,7 @@ def simple_moving_average(marmoset_agent):
 
 def cal_2d_distance(marmoset_agent_s):
     # calculating the 2D distance between the first touch locations and the i-th locations. 
-    # This script is not used for our simulations.
+    # This script is NOT USED for our simulations.
     
     l_norm_s = len(marmoset_agent_s[0,0,:]) # get the size of the vector of simulated marmoset agent.
 
