@@ -22,9 +22,10 @@ def cal_2d_distance(marmoset_agent_s):
     
     l_norm_s = len(marmoset_agent_s[0,0,:]) # get the size of the vector of simulated marmoset agent.
 
-    norm_s = np.zeros(l_norm_s) # make zero vector for saving the 2D distances calculated below.
-    # loop for calculating the 2D distances between 1-st location and i-th location.
+    # make zero vector for saving the 2D distances calculated below.
+    norm_s = np.zeros(l_norm_s) 
     
+    # loop for calculating the 2D distances between 1-st location and i-th location.
     for i in range(l_norm_s):
         a = marmoset_agent_s[0,:,i]
         b = marmoset_agent_s[-1,:,i]
@@ -59,7 +60,7 @@ def generate_next_dot(marmoset_agent,mu,sigma_global,sigma_local,pi):
     return new_dot
 
 def mk_pi_s(r):
-    # making the lists of mixture ratios, pi_r, here. Mixture ratio is the probablities to switch 
+    # making the lists of mixture ratios, pi_s, here. Mixture ratio is the probablities to switch the two states (i.e., global state or loacl state) for the next dot generations.  
     if r == 0.1:
         pi_s = [i * 0.01 for i in range(21)]
         pi_s.extend([j * 0.1 for j in range(3,11)])
