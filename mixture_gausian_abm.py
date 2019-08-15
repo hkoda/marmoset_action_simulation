@@ -51,16 +51,31 @@ def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
     return marmoset_agent
 
 def generate_next_dot(marmoset_agent,mu,sigma_global,sigma_local,pi):
+    # method returns the next dot based on the preivous dots' place with the parameter pi, mixuture ratio.
+
+    # Choice each of the two states (global or local process). The states are binary assined:
+    # Global state:= 1, local state := 0.
+    # The probabilities of each state is defined by the mixture ratio. 
     state = np.random.choice([1,0],1,p=[pi,1-pi])
+
+    # Case of global process.
+    # Next dot is generated from the bivaiate Gaussian distributions with mean:= mu(here set as (0,0)) and standard deviations of global process (here set as 250).
     if state:
         new_dot = multivariate_normal(mu, sigma_global, 1)
+    
+    # Case of local process.
+    # First, choose one dot ('attend dot') from the dots appeard on the monitor. 
+    # Next, the new dot is generated from the bivariate Gaussian distribution with mean:= place of the attend dot and standard deviations of local process (here set as 250 * r)
     else:
         attend_dot = marmoset_agent[np.random.choice(marmoset_agent.shape[0]), :]
         new_dot = multivariate_normal(attend_dot, sigma_local, 1)
     return new_dot
 
 def mk_pi_s(r):
-    # making the lists of mixture ratios, pi_s, here. Mixture ratio is the probablities to switch the two states (i.e., global state or loacl state) for the next dot generations.  
+    # making the lists of mixture ratios, pi_s, here. 
+    # Mixture ratio is the probablities to switch the two states of dot generations (i.e., global process or loacl process) for the next dot generations.
+    # For example, "pi = 0.1" means the probability that the next dot is generated from the global process is 10 %, while those from the local process is 90 %.
+    # this method makes the list of pi_s := [0.01,0.02,0.03,....,0.1,0.2,0.3....,1].
     if r == 0.1:
         pi_s = [i * 0.01 for i in range(21)]
         pi_s.extend([j * 0.1 for j in range(3,11)])
@@ -80,7 +95,7 @@ def main():
     # set global (large) standard deviation parameter (for bivariate Gaussian distribution) as 250.
     sd_global = 250
 
-    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25.
+    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25. In our paper, we reported the case of r = 0.1.
     ratio_s = [i * 0.1 for i in range(1,11)]
 
     # define the covariance matrix of bivariate Gaussian distribution.
@@ -96,12 +111,20 @@ def main():
         pi_s = mk_pi_s(r)
         sma_sd_s = np.zeros(shape=(2,iteration_n,len(pi_s))) # prepare np array for SD values (dim=1), axis (dim=2), and pi values (dim=3).
         marmoset_agent_s = np.zeros(shape=(200,2,iteration_n,len(pi_s)))
+
+        # sub-loop for each of the mixture ratios ('pi_s') of simulations
         for k, pi in enumerate(pi_s):
             print("start pi = %f" %pi)
+            
+            # last loop by iteration numbers for each of all possibile combinations of 'ratio_s' and 'pi_s'.
             for i in range(iteration_n):
                 marmoset_agent = generate_agent(200,mu,sigma_global,sigma_local,pi)
                 marmoset_agent_s[:,:,i,k] = marmoset_agent
-                sma_sd_s[:,i,k] = np.std(simple_moving_average(marmoset_agent),axis = 0)    
+                # Finally compute the standard deviation of the simple moving avarage valuse of simulated marmoset places for each of all possibile combinations of 'ratio_s' and 'pi_s'
+                sma_sd_s[:,i,k] = np.std(simple_moving_average(marmoset_agent),axis = 0) 
+
+        # save the simulation date in the 'results' directories. 
+        # Results directory should be made prior to the simulations.
         with open('results/mixture_gausian_abm_sd_r%s_%s.pickle' % (str(n+1),today_str),'wb') as f_1:
             pickle.dump(sma_sd_s, f_1)
         with open('results/mixture_gausian_abm_agent_raw_r%s_%s.pickle' % (str(n+1), today_str),'wb') as f_2:
