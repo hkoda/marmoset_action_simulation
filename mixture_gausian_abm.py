@@ -95,7 +95,9 @@ def main():
     # set global (large) standard deviation parameter (for bivariate Gaussian distribution) as 250.
     sd_global = 250
 
-    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25. In our paper, we reported the case of r = 0.1.
+    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. 
+    # E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25. 
+    # ATTENTION: In our paper, we reported the case of r = 0.1.
     ratio_s = [i * 0.1 for i in range(1,11)]
 
     # define the covariance matrix of bivariate Gaussian distribution.
