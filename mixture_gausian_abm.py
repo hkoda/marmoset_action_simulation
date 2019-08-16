@@ -16,23 +16,6 @@ def simple_moving_average(marmoset_agent):
     marmoset_agent_sma[:,1] = np.convolve(marmoset_agent[:,1],b,"valid") # y-axis
     return marmoset_agent_sma
 
-def cal_2d_distance(marmoset_agent_s):
-    # calculating the 2D distance between the first touch locations and the i-th locations. 
-    # This script is NOT USED for our simulations.
-    
-    l_norm_s = len(marmoset_agent_s[0,0,:]) # get the size of the vector of simulated marmoset agent.
-
-    # make zero vector for saving the 2D distances calculated below.
-    norm_s = np.zeros(l_norm_s) 
-    
-    # loop for calculating the 2D distances between 1-st location and i-th location.
-    for i in range(l_norm_s):
-        a = marmoset_agent_s[0,:,i]
-        b = marmoset_agent_s[-1,:,i]
-        norm_s[i] = np.linalg.norm(a-b) # compute 2D distance and save to the vector.
-    
-    return norm_s
-
 def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
     # algorithm generating the new locations depending on the previous locations.
 
@@ -84,7 +67,7 @@ def mk_pi_s(r):
     return pi_s
 
 def main():
-    # main process of simulations.
+    # Main process of simulations.
 
     # Get the date-time info when we simulated.
     today_str = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
@@ -95,10 +78,9 @@ def main():
     # set global (large) standard deviation parameter (for bivariate Gaussian distribution) as 250.
     sd_global = 250
 
-    # make the lists of ratio parameter. ratio := sd_local/sd_global, set from 0.1 to 1 by 0.1. 
-    # E.g., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25. 
-    # ATTENTION: In our paper, we reported the case of r = 0.1.
-    ratio_s = [i * 0.1 for i in range(1,11)]
+    # ratio parameter. ratio(r) := sd_local/sd_global
+    # i.e., when ratio = 0.1, the local (small) standard deviation parameter is 250 x 0.1 = 25. 
+    r = 0.1
 
     # define the covariance matrix of bivariate Gaussian distribution.
     sigma_global = [[sd_global**2,0],[0,sd_global**2]]
@@ -106,31 +88,33 @@ def main():
     # iteration number for the simulations.
     iteration_n = 10000
 
-    # main loop for each of the `ratio` values of simulations.
-    for n, r in enumerate(ratio_s):
-        print('start r = %f' %r)
-        sigma_local = [[(sd_global * r) ** 2,0],[0,(sd_global * r) ** 2]]
-        pi_s = mk_pi_s(r)
-        sma_sd_s = np.zeros(shape=(2,iteration_n,len(pi_s))) # prepare np array for SD values (dim=1), axis (dim=2), and pi values (dim=3).
-        marmoset_agent_s = np.zeros(shape=(200,2,iteration_n,len(pi_s)))
+    # define sigma_local, covariance matrix of the local process.
+    sigma_local = [[(sd_global * r) ** 2,0],[0,(sd_global * r) ** 2]]
 
-        # sub-loop for each of the mixture ratios ('pi_s') of simulations
-        for k, pi in enumerate(pi_s):
-            print("start pi = %f" %pi)
-            
-            # last loop by iteration numbers for each of all possibile combinations of 'ratio_s' and 'pi_s'.
-            for i in range(iteration_n):
-                marmoset_agent = generate_agent(200,mu,sigma_global,sigma_local,pi)
-                marmoset_agent_s[:,:,i,k] = marmoset_agent
-                # Finally compute the standard deviation of the simple moving avarage valuse of simulated marmoset places for each of all possibile combinations of 'ratio_s' and 'pi_s'
-                sma_sd_s[:,i,k] = np.std(simple_moving_average(marmoset_agent),axis = 0) 
+    # compute mixture ratio lists.
+    pi_s = mk_pi_s(r)
 
-        # save the simulation date in the 'results' directories. 
-        # Results directory should be made prior to the simulations.
-        with open('results/mixture_gausian_abm_sd_r%s_%s.pickle' % (str(n+1),today_str),'wb') as f_1:
-            pickle.dump(sma_sd_s, f_1)
-        with open('results/mixture_gausian_abm_agent_raw_r%s_%s.pickle' % (str(n+1), today_str),'wb') as f_2:
-            pickle.dump(marmoset_agent_s,f_2)
+    # prepare np array for SD values (dim=1), axis (dim=2), and pi values (dim=3).
+    sma_sd_s = np.zeros(shape=(2,iteration_n,len(pi_s))) 
+    marmoset_agent_s = np.zeros(shape=(200,2,iteration_n,len(pi_s)))
+
+    # loop for each of the mixture ratios ('pi_s') of simulations
+    for k, pi in enumerate(pi_s):
+        print("start pi = %f" %pi)
+        
+        # sub-loop by iteration numbers
+        for i in range(iteration_n):
+            marmoset_agent = generate_agent(200,mu,sigma_global,sigma_local,pi)
+            marmoset_agent_s[:,:,i,k] = marmoset_agent
+            # Finally compute the standard deviation of the simple moving avarage valuse of simulated marmoset places for each of mixture ratio, 'pi_s'
+            sma_sd_s[:,i,k] = np.std(simple_moving_average(marmoset_agent),axis = 0) 
+
+    # Save the simulation date in the 'results' directories. 
+    # Results directory should be made prior to the simulations.
+    with open('results/mixture_gausian_abm_sd_r1_%s.pickle' % today_str,'wb') as f_1:
+        pickle.dump(sma_sd_s, f_1)
+    with open('results/mixture_gausian_abm_agent_raw_r1_%s.pickle' % today_str,'wb') as f_2:
+        pickle.dump(marmoset_agent_s,f_2)
     print('Simulation successfully saved')
 
 if __name__ == '__main__':
