@@ -18,7 +18,7 @@ The first dot is generated from the [bivariate Gaussian distributions](https://e
 0 & 250^{2} \\
 \end{pmatrix}
 $  -->
-as a covariance matrix (&Sigma;<sub>g</sub>). This Gaussian distribution with large SD is called as "**Global Process (GP)**", hereafter.
+as a covariance matrix (&Sigma;<sub>g</sub>). This Gaussian distribution with large standard deviations(SD) is called as "**Global Process (GP)**", hereafter.
 <img src="figures_for_readme/process_global_first_touch.png" width="500">
 
 The heatmap of probability density of GP. The dot (yellow) is generated from the GP.
@@ -31,7 +31,7 @@ The next (second) dot is generated from each of GP **OR** the other bivariate Ga
 0 & 25^{2} \\
 \end{pmatrix}
 $ -->
-The latter process aims to simulate the marmoset actions of touching the visible dot. This Gaussian distribution with large SD is called as "**Local Process (LP)**", hereafter.
+The latter process aims to simulate the marmoset actions of touching the visible dot nearby. This Gaussian distribution with smaller SD is called as "**Local Process (LP)**", hereafter.
 
 <img src="figures_for_readme/process_global_second_touch_both_global.png" width="500">
 
