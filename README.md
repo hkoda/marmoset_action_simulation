@@ -25,7 +25,7 @@ The heatmap of probability density of GP. The dot (yellow) is generated from the
 <!-- ![](figures_for_readme/process_global_first_touch.png) -->
 
 ### 2. The second dot generation
-Next (second) dot is generated from each of GP **OR** the other bivariate Gaussian distribution of the mean parameter (&mu;<sub>l</sub>) set as the previous dot (grey dot in the next fig) and the covariance matrix (&Sigma;<sub>l</sub>) set as <img src="LP_cov.png" height="40" align="middle">.
+The next (second) dot is generated from each of GP **OR** the other bivariate Gaussian distribution of the mean parameter (&mu;<sub>l</sub>) set as the previous dot (grey dot in the next fig) and the covariance matrix (&Sigma;<sub>l</sub>) set as <img src="LP_cov.png" height="40" align="middle">.
 <!-- $\begin{pmatrix}
 25^{2} & 0 \\
 0 & 25^{2} \\
@@ -41,6 +41,22 @@ The second dot (yellow) is generated from the GP as well as the first dot (black
 <img src="figures_for_readme/process_global_second_touch_local.png" width="500">
 
 The second dot (yellow) is generated from the LP, determined by the first dot (black), with the heatmap of the probability density (red colorations) of LP.
+
+
+### 3. n-th dot generations
+Similar to the second dot generation, the n-th dot is generated from each of GP **OR** the LP. In the case of LP, the attend dot is chosen from the previous 10 dots (between n-1 th and n-10 th dots), and is set to the mean parameter of LP (&mu;<sub>l</sub>).
+
+<img src="figures_for_readme/process_n_1_status.png" width="500">
+
+The sample figure of the n-1 th status of the screen. The 10 dots are shown.
+
+<img src="figures_for_readme/process_n_status.png" width="500">
+
+The case of GP. The next (n-th) dot (yellow) is generated from the GP, with heatmap of the probability density of GP. 
+
+<img src="figures_for_readme/process_n_status_lp.png" width="500">
+
+The case of LP. The next (n-th) dot (yellow) is generated from the LP. The attend dot is the black dot, the center of the red area. Red area represent the probability density of the LP. 
 
 ## Flowchart of simulations
 
