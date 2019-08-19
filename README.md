@@ -10,21 +10,19 @@ This repo is the code of the manuscripts, Hiroki Koda *et al* (Title or DOI will
 ## Graphical descriptions of the model
 In this model, the dots (marmoset touch location) were generated from several rules:
 
----
-
-- 1. The first dot is generated from the [bivariate Gaussian distributions](https://en.wikipedia.org/wiki/Multivariate_normal_distribution) with (0,0) mean parameter ( $\mu_{g}$ ) and $
+### 1. The first dot generations
+The first dot is generated from the [bivariate Gaussian distributions](https://en.wikipedia.org/wiki/Multivariate_normal_distribution) with (0,0) as a mean parameter ( $\mu_{g}$ ) and $
 \begin{pmatrix}
 250^{2} & 0 \\
 0 & 250^{2} \\
 \end{pmatrix}
-$covariance matrix ($\Sigma_{g}$). This Gaussian distribution with large SD is called as "**Global Process (GP)**", hereafter.
+$ as a covariance matrix ($\Sigma_{g}$). This Gaussian distribution with large SD is called as "**Global Process (GP)**", hereafter.
 <img src="figures_for_readme/process_global_first_touch.png" width="500">
 The heatmap of probability density of GP. The dot (yellow) is generated from the GP.
 <!-- ![](figures_for_readme/process_global_first_touch.png) -->
 
----
-
-- 2. Next (second) dot is generated from each of GP **OR** the other bivariate Gaussian distribution of the mean parameter ($\mu_{l}$) set as the previous dot (grey dot in the next fig) and the covariance matrix ($\Sigma_{l}$) set as $\begin{pmatrix}
+### 1. The second dot generation
+Next (second) dot is generated from each of GP **OR** the other bivariate Gaussian distribution of the mean parameter ($\mu_{l}$) set as the previous dot (grey dot in the next fig) and the covariance matrix ($\Sigma_{l}$) set as $\begin{pmatrix}
 25^{2} & 0 \\
 0 & 25^{2} \\
 \end{pmatrix}
