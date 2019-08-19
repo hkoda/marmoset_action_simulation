@@ -1,0 +1,9 @@
+// Graph
+digraph {
+	dpi=300
+	a [label="" fontcolor=black fontsize=20 image="process_global_first_touch.png" shape=none]
+	b [label="" fontcolor=black fontsize=20 image="process_global_second_touch_both_global.png" shape=none]
+	c [label="" fontcolor=black fontsize=20 image="process_global_second_touch_local.png" shape=none]
+	a -> b [label="π" fontsize=20 penwidth=1]
+	a -> c [label="1- π" fontsize=20 penwidth=1]
+}
