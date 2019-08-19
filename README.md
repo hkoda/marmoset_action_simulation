@@ -1,5 +1,6 @@
 # marmoset_action_simulation
 
+(NOT YET COMPLETED OF DESCRIPTIONS)
 This repo is the code of the manuscripts, Hiroki Koda *et al* (Title or DOI will appear immediately after the journal acceptance), simulating the touch place of the marmoset action experiments.
 
 ## Requirements
