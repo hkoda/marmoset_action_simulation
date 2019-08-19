@@ -1,4 +1,6 @@
 # marmoset_action_simulation
+	
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 (NOT YET COMPLETED OF DESCRIPTIONS)
 This repo is the code of the manuscripts, Hiroki Koda *et al* (Title or DOI will appear immediately after the journal acceptance), simulating the touch place of the marmoset action experiments.
