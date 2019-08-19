@@ -12,7 +12,7 @@ In this model, the dots (marmoset touch location) were generated from several ru
 
 ---
 
-- 1. The first dot is generated from the [bivariate Gaussian distributions](https://en.wikipedia.org/wiki/Multivariate_normal_distribution) with (0,0) mean parameter ($\mu_{g}$) and $
+- 1. The first dot is generated from the [bivariate Gaussian distributions](https://en.wikipedia.org/wiki/Multivariate_normal_distribution) with (0,0) mean parameter ( $\mu_{g}$ ) and $
 \begin{pmatrix}
 250^{2} & 0 \\
 0 & 250^{2} \\
