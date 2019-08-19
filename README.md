@@ -19,6 +19,7 @@ The first dot is generated from the [bivariate Gaussian distributions](https://e
 \end{pmatrix}
 $  -->
 as a covariance matrix (&Sigma;<sub>g</sub>). This Gaussian distribution with large standard deviations(SD) is called as "**Global Process (GP)**", hereafter.
+
 <img src="figures_for_readme/process_global_first_touch.png" width="500">
 
 The heatmap of probability density of GP. The dot (yellow) is generated from the GP.
