@@ -53,10 +53,10 @@ The second dot (yellow) is generated from the LP, determined by the first dot (b
 ## Summary of parameters used in our simulations
 
 - &mu;<sub>g</sub> = (0,0)
-- &Sigma;<sub>g</sub> = 
-\begin{pmatrix}
+- &Sigma;<sub>g</sub> = <img src="GP_cov.png" height="40" align="middle">
+<!-- \begin{pmatrix}
 250^{2} & 0 \\
 0 & 250^{2} \\
 \end{pmatrix}
-$
+$ -->
 - n<sub>iteration</sub> = 10000
