@@ -94,6 +94,7 @@ The case of LP. The next (n-th) dot (yellow) is generated from the LP. The atten
 - Local process
     - &mu;<sub>l</sub> = (x<sub>j</sub>,y<sub>j</sub>)
     - &Sigma;<sub>l</sub> = <img src="LP_cov.png" height="40" align="middle">
+    
     (x<sub>j</sub>,y<sub>j</sub>) means the coordinates of the dot selected among the visible dots
 - General settings
     - n<sub>iteration</sub> = 10000
