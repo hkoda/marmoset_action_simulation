@@ -101,3 +101,4 @@ The case of LP. The next (n-th) dot (yellow) is generated from the LP. The atten
     - n<sub>iteration</sub> = 10000
 
 ## Mathematical discreptions of our model
+TBD
