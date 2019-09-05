@@ -1,5 +1,6 @@
 # coding: utf-8
-# import PIL
+# This script is prepared for the figure generation of the readme.md file. 
+# Need numpy, matpotlib, scipy, PIL and graphiviz.
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,12 +9,10 @@ from scipy.stats import multivariate_normal
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from graphviz import Digraph
 
-
-
 def mk_graph():
-    fontsize = '20'
+    fontsize = '40'
     fontcolor = 'black'
-    pw = '1'
+    pw = '3'
     g = Digraph(comment = 'Graph',format='png')
     # g.attr(rankdir='LR')
     g.attr(dpi='300')
@@ -41,9 +40,9 @@ def mk_graph():
     print('done.')
 
 def mk_graph_loop():
-    fontsize = '20'
+    fontsize = '40'
     fontcolor = 'black'
-    pw = '1'
+    pw = '3'
     g = Digraph(comment = 'Graph',format='png')
     # g.attr(rankdir='LR')
     g.attr(dpi='300')
@@ -69,11 +68,11 @@ def mk_graph_loop():
     fontcolor = fontcolor
     )
 
-    g.edge('0','1',penwidth = pw,label='',fontsize=fontsize)
-    g.edge('0','2',penwidth = pw,label='',fontsize=fontsize)
+    g.edge('0','1',penwidth = pw,label='π',fontsize=fontsize)
+    g.edge('0','2',penwidth = pw,label='1-π',fontsize=fontsize)
     g.edge('2','3',penwidth = pw,label='',fontsize=fontsize)
-    g.edge('3','0',penwidth = pw,label='',fontsize=fontsize, headport='e',tailport = 'e')
-    g.edge('1','0',penwidth = pw,label='',fontsize=fontsize, headport='w',tailport = 'w')
+    g.edge('3','0',penwidth = pw,label='Loop for\nthe next trial',fontsize=fontsize, headport='e',tailport = 'e')
+    g.edge('1','0',penwidth = pw,label='Loop for\nthe next trial',fontsize=fontsize, headport='w',tailport = 'w')
     g.body.append('{rank=same; 1; 3;}')
 
     g.render('loop_process')
@@ -267,7 +266,6 @@ def main():
     # plot_scatter_LP()
     mk_graph()
     mk_graph_loop()
-
 
 if __name__ == "__main__":
     main()
