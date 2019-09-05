@@ -96,9 +96,10 @@ The case of LP. The next (n-th) dot (yellow) is generated from the LP. The atten
     - &Sigma;<sub>l</sub> = <img src="LP_cov.png" height="40" align="middle">
 
     (x<sub>j</sub>,y<sub>j</sub>) means the coordinates of the dot selected among the visible dots
-- General settings
+- Step numbers of a single simulation, matching with a experiment session including 200 touch trials.
     - n<sub>steps</sub> = 200
+- Number of iteration (simulations).
     - n<sub>iteration</sub> = 10000
 
-## Mathematical discreptions of our model
-TBD
+<!-- ## Mathematical discreptions of our model
+TBD -->
