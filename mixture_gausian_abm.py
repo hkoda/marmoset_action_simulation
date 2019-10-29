@@ -34,21 +34,21 @@ def generate_touch_locs(n_touch,mu,sigma_global,sigma_local,pi):
     return touch_locs
 
 def generate_next_loc(touch_locs,mu,sigma_global,sigma_local,pi):
-    # method returns the next dot based on the preivous dots' place with the parameter pi, mixuture ratio.
+    # method returns the next dot location based on the preivous dot locations with the parameter pi, mixuture ratio.
 
-    # Choice each of the two states (global or local process). The states are binary assined:
+    # Choice each of the two states (global or local process).
     # Global state:= 1, local state := 0.
     # The probabilities of each state is defined by the mixture ratio. 
     state = np.random.choice([1,0], size = 1, p = [pi,1-pi])
 
     # Case of global process.
-    # Next dot is generated from the bivaiate Gaussian distributions with mean:= mu(here set as (0,0)) and standard deviations of global process (here set as 250).
+    # Next dot location is generated from the bivaiate Gaussian distributions with mean:= mu(here set as (0,0)) and standard deviations of global process (here set as 250).
     if state:
         new_loc = multivariate_normal(mu, sigma_global, 1)
     
     # Case of local process.
-    # First, choose one dot ('attend dot') from the dots appeard on the monitor. 
-    # Next, the new dot is generated from the bivariate Gaussian distribution with mean:= place of the attend dot and standard deviations of local process (here set as 250 * r)
+    # First, choose one dot ('attend location') from the dots appeard on the monitor. 
+    # Next, the new location is generated from the bivariate Gaussian distribution with mean:= place of the attend location and standard deviations of local process (here set as 250 * r)
     else:
         attend_loc = touch_locs[np.random.choice(len(touch_locs)), :]
         new_loc = multivariate_normal(attend_loc, sigma_local, 1)
@@ -56,8 +56,8 @@ def generate_next_loc(touch_locs,mu,sigma_global,sigma_local,pi):
 
 def mk_pi_s(r):
     # making the lists of mixture ratios, pi_s, here. 
-    # Mixture ratio is the probablities to switch the two states of dot generations (i.e., global process or local process) for the next touch location generations.
-    # For example, "pi = 0.1" means the probability that the next dot is generated from the global process is 10 %, while those from the local process is 90 %.
+    # Mixture ratio is the probablities to switch the two states of touch location generations (i.e., global process or local process) for the next touch location generations.
+    # For example, "pi = 0.1" means the probability that the next touch location is generated from the global process is 10 %, while those from the local process is 90 %.
     # this method makes the list of pi_s := [0.01,0.02,0.03,....,0.1,0.2,0.3....,1].
     if r == 0.1:
         pi_s = [i * 0.01 for i in range(21)]
