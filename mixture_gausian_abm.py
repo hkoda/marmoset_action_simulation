@@ -16,7 +16,7 @@ def simple_moving_average(touch_locs):
     touch_locs_sma[:,1] = np.convolve(touch_locs[:,1],b,"valid") # y-axis
     return touch_locs_sma
 
-def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
+def generate_touch_locs(n_touch,mu,sigma_global,sigma_local,pi):
     # algorithm generating the new locations depending on the previous locations.
 
     # First, making a vector for saving the locations.
@@ -25,15 +25,15 @@ def generate_agent(n_touch,mu,sigma_global,sigma_local,pi):
     # The first locations is generated from the bivariate Gaussian distributions (mean:= mu, standard deviation:= sigma_global).
     touch_locs[0] = multivariate_normal(mu, sigma_global, 1)
 
-    # loop generating the next location by generate_next_dot() methods.
+    # loop generating the next location by generate_next_loc() methods.
     for i in range(1,200):
         if i <= 10:
-            touch_locs[i] = generate_next_dot(touch_locs[:i],mu,sigma_global,sigma_local,pi) 
+            touch_locs[i] = generate_next_loc(touch_locs[:i],mu,sigma_global,sigma_local,pi) 
         else:
-            touch_locs[i] = generate_next_dot(touch_locs[i-10-1:i],mu,sigma_global,sigma_local,pi)
+            touch_locs[i] = generate_next_loc(touch_locs[i-10-1:i],mu,sigma_global,sigma_local,pi)
     return touch_locs
 
-def generate_next_dot(touch_locs,mu,sigma_global,sigma_local,pi):
+def generate_next_loc(touch_locs,mu,sigma_global,sigma_local,pi):
     # method returns the next dot based on the preivous dots' place with the parameter pi, mixuture ratio.
 
     # Choice each of the two states (global or local process). The states are binary assined:
@@ -104,7 +104,7 @@ def main():
         
         # sub-loop by iteration numbers
         for i in range(iteration_n):
-            touch_locs = generate_agent(200,mu,sigma_global,sigma_local,pi)
+            touch_locs = generate_touch_locs(200,mu,sigma_global,sigma_local,pi)
             touch_locs_s[:,:,i,k] = touch_locs
             # Finally compute the standard deviation of the simple moving avarage valuse of simulated marmoset places for each of mixture ratio, 'pi_s'
             sma_sd_s[:,i,k] = np.std(simple_moving_average(touch_locs),axis = 0) 
