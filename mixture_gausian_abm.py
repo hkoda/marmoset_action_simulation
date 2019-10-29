@@ -39,7 +39,7 @@ def generate_next_dot(marmoset_agent,mu,sigma_global,sigma_local,pi):
     # Choice each of the two states (global or local process). The states are binary assined:
     # Global state:= 1, local state := 0.
     # The probabilities of each state is defined by the mixture ratio. 
-    state = np.random.choice([1,0],1,p=[pi,1-pi])
+    state = np.random.choice([1,0], size = 1, p = [pi,1-pi])
 
     # Case of global process.
     # Next dot is generated from the bivaiate Gaussian distributions with mean:= mu(here set as (0,0)) and standard deviations of global process (here set as 250).
